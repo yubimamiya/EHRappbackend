@@ -1,0 +1,9 @@
+-r src/requirements.txt
+ruff
+pre-commit
+pytest
+pytest-asyncio
+pytest-snapshot
+pytest-cov
+pip-tools
+ipykernel

@@ -1,0 +1,74 @@
+trigger:
+  branches:
+    include:
+      - main  # your chosen branch
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: AZURE_LOCATION
+    value: 'eastus'
+  - name: AZURE_ENV_NAME
+    value: 'rec-ex-app-azure-env'
+  - group: RecordExtractionApp_CLILogin_Vars
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.10'   # stable and safe for pipeline tools
+    displayName: 'Set up Python'
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      curl -fsSL https://aka.ms/install-azd.sh | bash
+    displayName: 'Install Azure Developer CLI'
+
+  - script: |
+      azd version
+    displayName: 'Check azd version'
+
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'MedicalInfoExtraction'  # Azure DevOps service connection
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Logging in as service principal..."
+        azd auth login --client-id $servicePrincipalId --client-secret $servicePrincipalKey --tenant-id $tenantId
+
+        echo "Setting subscription..."
+        az account set --subscription $subscriptionId
+
+        echo "Checking if azd environment $AZURE_ENV_NAME with $AZURE_LOCATION exists..."
+        if azd env list --output json | jq -e ".[] | select(.name == \"$AZURE_ENV_NAME\")" > /dev/null; then
+          echo "Environment $AZURE_ENV_NAME exists. Selecting it..."
+          azd env select $AZURE_ENV_NAME --debug
+        else
+          echo "Environment $AZURE_ENV_NAME does not exist. Creating it..."
+          azd env new $AZURE_ENV_NAME \
+            --subscription $subscriptionId \
+            --location $AZURE_LOCATION \
+            --no-prompt --debug
+        fi
+
+        echo "Running azd up to deploy backend (back) container app..."
+        azd up --environment $AZURE_ENV_NAME --no-prompt --debug
+
+
+        echo "Final environment values:"
+        azd env get-values --environment $AZURE_ENV_NAME --debug
+
+    env:
+      servicePrincipalId: $(servicePrincipalId)
+      servicePrincipalKey: $(servicePrincipalKey)
+      tenantId: $(tenantId)
+      subscriptionId: $(subscriptionId)
+      AZURE_ENV_NAME: $(AZURE_ENV_NAME)
+      AZURE_LOCATION: $(AZURE_LOCATION)
+      
+    displayName: 'Deploy with azd up'
