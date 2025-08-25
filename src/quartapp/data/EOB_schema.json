@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Explanation of Benefit (EOB)",
+  "type": "object",
+  "properties": {
+    "Patient Name": {"type": "string"},
+    "Amount Paid": {"type": "number"},
+    "Health Insurance Company": {"type": "string"}
+  },
+  "required": ["Patient Name", "Amount Paid", "Health Insurance Company"]
+}

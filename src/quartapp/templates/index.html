@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ACA Backend Method Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 5px;
+        }
+        #message, #error {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #message { color: green; }
+        #error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>ACA Backend Method Test</h1>
+    <button id="getBtn">Test GET</button>
+    <button id="postBtn">Test POST</button>
+    <button id="optionsBtn">Test OPTIONS</button>
+    <div id="message"></div>
+    <div id="error"></div>
+
+    <script>
+        async function testRequest(method) {
+            try {
+                let res = await fetch("/api/test", {
+                    method: method,
+                    headers: { "Content-Type": "application/json" }
+                });
+                let text;
+                try {
+                    text = await res.text();
+                } catch {
+                    text = "<no body>";
+                }
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                document.getElementById("message").textContent = `${method} OK: ${text}`;
+                document.getElementById("error").textContent = "";
+            } catch (err) {
+                document.getElementById("error").textContent = `${method} Error: ${err.message}`;
+                document.getElementById("message").textContent = "";
+            }
+        }
+
+        document.getElementById("getBtn").addEventListener("click", () => testRequest("GET"));
+        document.getElementById("postBtn").addEventListener("click", () => testRequest("POST"));
+        document.getElementById("optionsBtn").addEventListener("click", () => testRequest("OPTIONS"));
+    </script>
+</body>
+</html>

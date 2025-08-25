@@ -1,0 +1,65 @@
+{
+  "$id": "https://example.com/health-record.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Schema for representing a patient",
+  "type": "object",
+  "required": ["Patient Name", "Date of Birth", "Sex", "Address", "Email", "Phone",  "Primary Insurance Name", "Primary Insurance Type", "Primary Insurance Member ID", "Primary Insurance Group ID", "Secondary Insurance Name", "Secondary Insurance Type", "Secondary Insurance Member ID", "Secondary Insurance Group ID", "CPT Codes", "ICD Codes"],
+  "properties": {
+    "Patient Name": {
+      "type": ["string", "null"]
+    },
+    "Date of Birth": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "Sex": {
+      "type": ["string", "null"]
+    },
+    "Address": {
+      "type": ["string", "null"]
+    },
+    "Email": {
+      "type": ["string", "null"],
+      "format": "email"
+    },
+    "Phone": {
+      "type": ["number", "null"]
+    },
+    "Primary Insurance Name": {
+      "type": ["string", "null"]
+    },
+    "Primary Insurance Type": {
+      "type": ["string", "null"]
+    },
+    "Primary Insurance Member ID": {
+      "type": ["string", "null"]
+    },
+    "Primary Insurance Group ID": {
+      "type": ["string", "null"]
+    },
+    "Secondary Insurance Name": {
+      "type": ["string", "null"]
+    },
+    "Secondary Insurance Type": {
+      "type": ["string", "null"]
+    },
+    "Secondary Insurance Member ID": {
+      "type": ["string", "null"]
+    },
+    "Secondary Insurance Group ID": {
+      "type": ["string", "null"]
+    },
+    "CPT Codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ICD Codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

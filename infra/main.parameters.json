@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "name": {
+        "value": "rec-ex-app"
+      },
+      "location": {
+        "value": "eastus"
+      },
+      "principalId": {
+        "value": "${AZURE_PRINCIPAL_ID}"
+      },
+      "openAILocation": {
+        "value": "eastus"
+      },
+      "openAiModelName": {
+        "value": "${AZURE_OPENAI_MODEL=gpt-4o}"
+      },
+      "openAiModelVersion": {
+        "value": "${AZURE_OPENAI_MODEL_VERSION=2024-05-13}"
+      },
+      "openAiDeploymentName": {
+        "value": "gpt-4o"
+      },
+      "openAiDeploymentCapacity": {
+        "value": "${AZURE_OPENAI_DEPLOYMENT_CAPACITY=50}"
+      },
+      "openAiDeploymentSkuName": {
+        "value": "${AZURE_OPENAI_DEPLOYMENT_SKU_NAME=GlobalStandard}"
+      },
+      "openAiResourceName": {
+        "value": "${AZURE_OPENAI_RESOURCE}"
+      },
+      "openAiResourceGroupName": {
+         "value": "rec-ex-app-rg"
+      },
+      "openAiResourceGroupLocation": {
+        "value": "${AZURE_OPENAI_RESOURCE_GROUP_LOCATION}"
+      },
+      "openAiSkuName": {
+        "value": "${AZURE_OPENAI_SKU_NAME=S0}"
+      },
+      "openAiApiVersion": {
+        "value": "2025-01-01-preview"
+      },
+      "createAzureOpenAi": {
+        "value": "${CREATE_AZURE_OPENAI=false}"
+      },
+      "openAiKey": {
+        "value": "701d561b2623492e9b1fddc69b32000f"
+      },
+      "openAiEndpoint": {
+        "value": "https://2wccj467aelpw-cog.openai.azure.com/"
+      },
+      "createRoleForUser": {
+        "value": "${CREATE_ROLE_FOR_USER=true}"
+      },
+      "acaExists": {
+        "value": "${SERVICE_ACA_RESOURCE_EXISTS=false}"
+      },
+      "disableKeyBasedAuth": {
+        "value": "${DISABLE_KEY_BASED_AUTH=true}"
+      }
+    }
+}
